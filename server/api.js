@@ -54,7 +54,6 @@ app.get('/products/search',async(request,response)=>{
       {'$sort' : {price:1}}, //by default sort by price
       {'$limit' : limit} //limit number of products 
     ]
-
     //console.log('Query : ', query);
     
     let new_list_products = await db.aggregate(query)
@@ -66,6 +65,9 @@ app.get('/products/search',async(request,response)=>{
           null, 2
     );
     
+    
+  
+  
     //response.send({'results': new_list_products});
     response.send(data);
     //response.send(new_list_products);

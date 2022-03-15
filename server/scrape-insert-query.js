@@ -1,6 +1,7 @@
 const dedicatedbrand = require('./sources/dedicatedbrand');
 const adresseParis = require('./sources/adresseParisbrand');
 const montlimart = require('./sources/montlimartbrand');
+const loom = require('./sources/loom');
 const db = require('./db');
 
 async function sandbox(){
@@ -53,6 +54,25 @@ async function sandbox(){
             console.log(`🕵️‍♀️ Scraping ${page}.`);
 
             let results = await montlimart.scrape(page);
+
+            console.log(`👕 ${results.length} products found.`);
+            
+            products.push(results);
+
+            console.log('Number of group of products: ', products.length);
+        }
+
+        pages = [
+            'https://www.loom.fr/collections/hauts',
+            'https://www.loom.fr/collections/bas'
+          ];
+
+        console.log(`🕵️‍♀️ Browsing ${pages.length} pages from Montlimart.`);
+
+        for(let page of pages) {
+            console.log(`🕵️‍♀️ Scraping ${page}.`);
+
+            let results = await loom.scrape(page);
 
             console.log(`👕 ${results.length} products found.`);
             
