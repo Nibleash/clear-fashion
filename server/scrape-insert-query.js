@@ -1,6 +1,7 @@
 const dedicatedbrand = require('./sources/dedicatedbrand');
 const adresseParis = require('./sources/adresseParisbrand');
 const montlimart = require('./sources/montlimartbrand');
+const loom = require('./sources/loom');
 const db = require('./db');
 
 async function sandbox(){
@@ -61,12 +62,31 @@ async function sandbox(){
             console.log('Number of group of products: ', products.length);
         }
 
+        pages = [
+            'https://www.loom.fr/collections/hauts',
+            'https://www.loom.fr/collections/bas'
+          ];
+
+        console.log(`🕵️‍♀️ Browsing ${pages.length} pages from Montlimart.`);
+
+        for(let page of pages) {
+            console.log(`🕵️‍♀️ Scraping ${page}.`);
+
+            let results = await loom.scrape(page);
+
+            console.log(`👕 ${results.length} products found.`);
+            
+            products.push(results);
+
+            console.log('Number of group of products: ', products.length);
+        }
+
         products = products.flat();
         console.log('Total number of products: ', products.length);
 
         console.log(products);
         
-        // ----- Connection to the database -----
+        // // ----- Connection to the database -----
         const resultDb = await db.insert(products);
 
         console.log(`💽 ${resultDb.insertedCount} inserted products.`);
