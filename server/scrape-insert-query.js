@@ -86,7 +86,7 @@ async function sandbox(){
 
         console.log(products);
         
-        // ----- Connection to the database -----
+        // // ----- Connection to the database -----
         const resultDb = await db.insert(products);
 
         console.log(`💽 ${resultDb.insertedCount} inserted products.`);
