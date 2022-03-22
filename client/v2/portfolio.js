@@ -14,9 +14,6 @@ let newProducts = [];
 
 
 
-
-
-
 const selectShow = document.querySelector('#show-select');
 // To select the page to be displayed
 const selectPage = document.querySelector('#page-select');
@@ -79,16 +76,23 @@ const fetchProducts = async (page = 1, size = 12,brand='') => {
   console.log("Fetch products");
   try {
     const response = await fetch(
-      `https://clear-fashion-api.vercel.app?page=${page}&size=${size}&brand=${brand}`
+      //`https://clear-fashion-api.vercel.app?page=${page}&size=${size}&brand=${brand}`
+      `https://server-sigma-seven.vercel.app/products/search?brand=${brand}`
     );
     const body = await response.json();
-    
-    if (body.success !== true) {
+    if (body.length==0) {
       console.error(body);
       return {currentProducts, currentPagination};
     }
-    console.log("FP", body.data);
-    return body.data;
+    let meta ={"currentPage":page,"pageCount":size*page,"pageSize":size,"count":body.length}
+
+    //let result = await fetchAllProducts(page,size,brand)
+    //console.log("FP", body.data);
+    //return body.data,meta;
+    let result = body.result
+    let res = {result, 'meta': meta}
+    console.log(res)
+    return res
 
   } catch (error) {
     console.error(error);

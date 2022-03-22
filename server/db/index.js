@@ -85,6 +85,7 @@ module.exports.find_by_id = async id => {
     // Connection to the data base
     const db = await getDB();
     const collection = db.collection(MONGODB_COLLECTION);
+    //db.collection_name.find(query, projection)
     const products = await collection.find({ "_id": id}).toArray();
 
     // console.log(products);

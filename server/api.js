@@ -17,6 +17,7 @@ app.use(helmet());
 app.options('*', cors());
 
 app.get('/', (request, response) => {
+  console.log("2");
   response.send({'ack': true});
 });
 
@@ -53,15 +54,14 @@ app.get('/products/search',async(request,response)=>{
       {'$match' : match_query},
       {'$sort' : {price:1}}, //by default sort by price
       {'$limit' : limit} //limit number of products 
-      ]
+    ]
     //console.log('Query : ', query);
     
     let new_list_products = await db.aggregate(query)
   
     var data = JSON.stringify({ 
-          "limit": limit, 
-          "total": new_list_products.length,
-          "results": new_list_products},
+          "result": new_list_products
+          },
           null, 2
     );
     
@@ -95,7 +95,7 @@ app.get('/products/:id', async (request, response) => {
   {
     response.status(500).send(error);
   }
-})
+});
 
 
 
